@@ -7,27 +7,53 @@
   <title>SET UP</title>
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" href="icon.png">
-  <!-- ★ここが本物のアプリとして認識させる設定です -->
   <link rel="manifest" href="manifest.json">
   
+  <style>
+    /* 体感時間を短くする魔法のローディングアニメーション */
+    .loader {
+      border: 4px solid #f3f3f3; 
+      border-top: 4px solid #1976d2; /* 会社のロゴ色に合わせた青 */
+      border-radius: 50%; width: 40px; height: 40px;
+      animation: spin 1s linear infinite; margin: 0 auto 20px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+
   <script>
-    window.onload = function() {
-      var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
-      // ホーム画面のアイコンから開いた時だけワープする
-      if (window.location.search.indexOf('app=1') !== -1 || window.matchMedia('(display-mode: standalone)').matches) {
-        window.location.replace(targetUrl);
-      } else {
-        // 普通にブラウザで開いた時は絶対にワープさせない（設定画面に留まる）
-        document.getElementById("message").style.display = "block";
-      }
-    };
+    // 画面の読み込みを待たず、プログラムが読まれた瞬間に【即ワープ】を開始する
+    var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
+    var isApp = window.location.search.indexOf('app=1') !== -1 || window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (isApp) {
+      // 即ワープ開始（裏側でGoogleサーバーへの接続が走ります）
+      window.location.replace(targetUrl);
+    }
   </script>
 </head>
-<body style="background-color: #f5f5f5; text-align: center; padding-top: 50px; font-family: sans-serif; color: #333;">
+<body style="background-color: #f5f5f5; text-align: center; padding-top: 60px; font-family: sans-serif; color: #333;">
+  
+  <!-- Googleのサーバーが立ち上がるのを待っている間に表示する画面 -->
+  <div id="loadingScreen" style="display: none;">
+    <div class="loader"></div>
+    <div style="color: #1976d2; font-weight: bold; font-size: 18px;">システムを起動しています...</div>
+    <div style="font-size: 12px; color: #999; margin-top: 15px;">※Googleの安全なサーバーに接続中です</div>
+  </div>
+
+  <!-- ブラウザで開いた時用の案内画面 -->
   <div id="message" style="display: none; padding: 20px;">
     <h2 style="color: #1976d2;">システム設定画面</h2>
     <p>この画面のメニューから<br><b>「ホーム画面に追加」</b>を行ってください。</p>
     <p style="font-size: 13px; color: #666; margin-top:30px;">※追加されたアイコンをタップすると、<br>次回から全自動で起動します。</p>
   </div>
+
+  <script>
+    // 今どんな状態で開かれているかを判定して、画面の表示を切り替える
+    if (isApp) {
+      document.getElementById("loadingScreen").style.display = "block";
+    } else {
+      document.getElementById("message").style.display = "block";
+    }
+  </script>
 </body>
 </html>
