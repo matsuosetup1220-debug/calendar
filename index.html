@@ -12,15 +12,12 @@
   
   <script>
     window.onload = function() {
-      // ★社長の実際のカレンダーURL
       var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
       var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
       
-      // スマホが「ホーム画面から開いた」か「2回目以降のアクセス」なら自動ワープ
       if (isStandalone || localStorage.getItem("isSetupComplete")) {
         window.location.replace(targetUrl);
       } else {
-        // 初回のみ案内画面を表示し、「1回見た」という記憶をスマホに保存する
         document.getElementById("message").style.display = "block";
         localStorage.setItem("isSetupComplete", "true");
       }
