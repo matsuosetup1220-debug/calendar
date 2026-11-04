@@ -1,7 +1,7 @@
 {
   "name": "SET UP",
   "short_name": "SET UP",
-  "start_url": "index.html?app=1",
+  "start_url": "index.html",
   "display": "standalone",
   "icons": [
     {
