@@ -7,21 +7,17 @@
   <title>SET UP</title>
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" href="icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ★ここが本物のアプリとして認識させる設定です -->
+  <link rel="manifest" href="manifest.json">
   
   <script>
     window.onload = function() {
       var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
-      
-      // URLに「?app=1」という目印がついているか判定
-      if (window.location.search.indexOf('app=1') !== -1) {
-        // ホーム画面のアイコン（目印あり）から開いた場合は光の速さで自動ワープ
+      // ホーム画面のアイコンから開いた時だけワープする
+      if (window.location.search.indexOf('app=1') !== -1 || window.matchMedia('(display-mode: standalone)').matches) {
         window.location.replace(targetUrl);
       } else {
-        // 普通のブラウザで開いた場合、URLの末尾にこっそり目印「?app=1」をつける
-        window.history.replaceState(null, '', '?app=1');
-        
-        // 案内画面を表示
+        // 普通にブラウザで開いた時は絶対にワープさせない（設定画面に留まる）
         document.getElementById("message").style.display = "block";
       }
     };
