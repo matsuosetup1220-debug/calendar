@@ -3,24 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 検索エンジン除外（誰にも検索されないためのお札） -->
   <meta name="robots" content="noindex, nofollow">
-  
-  <!-- スマホに追加した時の初期アプリ名（※後で各自のスマホ側でも変更可能） -->
   <title>SET UP</title>
-  
-  <!-- さきほど用意したアイコン画像と紐付ける設定 -->
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" href="icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   
-  <!-- 開いた瞬間に、本物のカレンダーへ自動ワープする魔法の呪文 -->
   <script>
     window.onload = function() {
-      window.location.replace("https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec");
+      // ホーム画面のアイコンから起動されたか判定
+      var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      
+      if (isStandalone) {
+        // ホーム画面から開いた場合はカレンダーへ自動ワープ
+        window.location.replace("https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec");
+      } else {
+        // 普通のブラウザで開いた場合は案内画面を表示して留まる
+        document.getElementById("message").style.display = "block";
+      }
     };
   </script>
 </head>
-<body style="background-color: #f5f5f5; text-align: center; padding-top: 50px; font-family: sans-serif; color: #666;">
-  <p>カレンダーを読み込んでいます...</p>
+<body style="background-color: #f5f5f5; text-align: center; padding-top: 50px; font-family: sans-serif; color: #333;">
+  <div id="message" style="display: none; padding: 20px;">
+    <h2 style="color: #1976d2;">システム設定画面</h2>
+    <p>この画面のメニューから<br><b>「ホーム画面に追加」</b>を行ってください。</p>
+    <p style="font-size: 13px; color: #666; margin-top:30px;">※追加されたアイコンをタップすると、<br>自動的にシステムが起動します。</p>
+  </div>
 </body>
 </html>
