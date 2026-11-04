@@ -1,0 +1,13 @@
+{
+  "name": "SET UP",
+  "short_name": "SET UP",
+  "start_url": "index.html?app=1",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
