@@ -12,30 +12,26 @@
   <script>
     window.onload = function() {
       var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
-      var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
       
-      // スマホが「ホーム画面から開いた」か「2回目以降のアクセス」なら自動ワープ
-      if (isStandalone || localStorage.getItem("isSetupComplete")) {
+      // URLに「?app=1」という目印がついているか判定
+      if (window.location.search.indexOf('app=1') !== -1) {
+        // ホーム画面のアイコン（目印あり）から開いた場合は光の速さで自動ワープ
         window.location.replace(targetUrl);
       } else {
-        // 初回のみ案内画面を表示し、「1回見た」という記憶をスマホに保存する
+        // 普通のブラウザで開いた場合、URLの末尾にこっそり目印「?app=1」をつける
+        window.history.replaceState(null, '', '?app=1');
+        
+        // 案内画面を表示
         document.getElementById("message").style.display = "block";
-        localStorage.setItem("isSetupComplete", "true");
       }
     };
-
-    function manualLaunch() {
-      localStorage.setItem("isSetupComplete", "true");
-      window.location.replace("https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec");
-    }
   </script>
 </head>
 <body style="background-color: #f5f5f5; text-align: center; padding-top: 50px; font-family: sans-serif; color: #333;">
   <div id="message" style="display: none; padding: 20px;">
     <h2 style="color: #1976d2;">システム設定画面</h2>
     <p>この画面のメニューから<br><b>「ホーム画面に追加」</b>を行ってください。</p>
-    <p style="font-size: 13px; color: #666; margin-top:20px;">※追加後、ホーム画面のアイコンから起動します。<br>画面が切り替わらない場合は下のボタンを押してください。</p>
-    <button onclick="manualLaunch()" style="margin-top:20px; padding:12px 24px; background:#1976d2; color:#fff; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">カレンダーを起動</button>
+    <p style="font-size: 13px; color: #666; margin-top:30px;">※追加されたアイコンをタップすると、<br>次回から全自動で起動します。</p>
   </div>
 </body>
 </html>
