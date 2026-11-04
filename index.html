@@ -11,19 +11,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   
   <script>
-    // ★ 画面の読み込みを待たず、アイコンを押した0.01秒後に即ジャンプの指示を出す
-    var targetUrl = "url?id=31";
-    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    var isSetup = localStorage.getItem("isSetupComplete");
-    
-    if (isStandalone || isSetup) {
-      // 条件を満たしていれば、画面が真っ白な状態でも即座にGoogleへ移動開始
-      window.location.replace(targetUrl);
-    }
-    
-    // 普通のブラウザで開いた場合（初回設定時）だけ、後から画面を表示する
     window.onload = function() {
-      if (!isStandalone && !isSetup) {
+      // ★社長の実際のカレンダーURL
+      var targetUrl = "https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec";
+      var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      
+      // スマホが「ホーム画面から開いた」か「2回目以降のアクセス」なら自動ワープ
+      if (isStandalone || localStorage.getItem("isSetupComplete")) {
+        window.location.replace(targetUrl);
+      } else {
+        // 初回のみ案内画面を表示し、「1回見た」という記憶をスマホに保存する
         document.getElementById("message").style.display = "block";
         localStorage.setItem("isSetupComplete", "true");
       }
@@ -31,12 +28,11 @@
 
     function manualLaunch() {
       localStorage.setItem("isSetupComplete", "true");
-      window.location.replace(targetUrl);
+      window.location.replace("https://script.google.com/macros/s/AKfycbwnyegZ8aa_FSN08lcpP2jw6jOMgmfg_Sn-CpsJBvjO8DXQ9YmwdUvMPBjJLzzkjp_8Zg/exec");
     }
   </script>
 </head>
 <body style="background-color: #f5f5f5; text-align: center; padding-top: 50px; font-family: sans-serif; color: #333;">
-  <!-- 初回用の案内画面 -->
   <div id="message" style="display: none; padding: 20px;">
     <h2 style="color: #1976d2;">システム設定画面</h2>
     <p>この画面のメニューから<br><b>「ホーム画面に追加」</b>を行ってください。</p>
